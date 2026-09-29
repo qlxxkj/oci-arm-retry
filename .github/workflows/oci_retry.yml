@@ -35,20 +35,21 @@ jobs:
           OCI_PRIVATE_KEY: ${{ secrets.OCI_PRIVATE_KEY }}
         run: |
           mkdir -p ~/.oci
+          rm -f ~/.oci/config
+          rm -f ~/.oci/oci_api_key.pem
 
           # Write API private key
           printf '%s' "$OCI_PRIVATE_KEY" > ~/.oci/oci_api_key.pem
           chmod 600 ~/.oci/oci_api_key.pem
 
-          # Write config (key_file uses absolute path)
-          cat > ~/.oci/config << EOF
-          [DEFAULT]
-          user=$OCI_USER
-          fingerprint=$OCI_FINGERPRINT
-          tenancy=$OCI_TENANCY
-          region=$OCI_REGION
-          key_file=/home/runner/.oci/oci_api_key.pem
-          EOF
+          # Write config line by line (avoids heredoc indentation issues)
+          printf '[DEFAULT]\nuser=%s\nfingerprint=%s\ntenancy=%s\nregion=%s\nkey_file=/home/runner/.oci/oci_api_key.pem\n' \
+            "$OCI_USER" "$OCI_FINGERPRINT" "$OCI_TENANCY" "$OCI_REGION" \
+            > ~/.oci/config
+
+          echo "===== ~/.oci/config ====="
+          cat ~/.oci/config
+          echo "========================="
 
       - name: Run OCI retry script
         # Script succeeds (exit 0)  → next step auto-disables the workflow
