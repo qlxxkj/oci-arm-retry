@@ -8,14 +8,16 @@ import datetime
 # ║  Arch   : ARM (Ampere)                               ║
 # ║  Tier   : Oracle Always Free                         ║
 # ║  OS     : Canonical Ubuntu 22.04                     ║
+# ║         : Canonical Ubuntu 22.04 Minimal aarch64     ║
+# ║         : Canonical Ubuntu 24.04 Minimal aarch64     ║
 # ╚══════════════════════════════════════════════════════╝
 
 # ─── Configuration ───────────────────────────────────────
 COMPARTMENT_ID = (
-    "ocid1.tenancy.oc1..aaaaaaaaaqij5zlnm3v5qprvdll3j7nc6o3dk4ykzerugzxe37ckajkpjxpa"  # Replace with your tenancy OCID
+    "ocid1.tenancy.oc1..aaaaaaaame2wavybpt5wxnnopgusqj35fwnvccawpiposijrdxwveinl7ypq"  # Replace with your tenancy OCID
 )
-SSH_PUBLIC_KEY = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDdsLT/y7kupelr7rr+NcIyPVb4ZC20x9L5VuNMC5aYlXmSuqJQemXzdzfvp5F899CNdBe+TJJ+w55ka6C5J8vZTMmT4IfIOKZdJsKaTwOCbYTRz62PLcq90veNBPdn0kcnUxrqD3ReKxkKhyyL9WIWH1+4e945w9TL2wgr7Os0rYN5q/4Sa6ioof1I4NE9lGw+WL2yjOI0YLQXmWnvRb7qcQUdOCxgbOXw3GsPFwp3UZ+yJm8kbwFzJdTojaUeriuk3HQYFjzaOVN07kmf2vTQKSgsyw5B+BhyeYQmcRtNTNiriZ7skfS06/24ZM/hzLBz7/PQgw0DoRHDWB5YbyT1 ssh-key-2026-03-05"  # Replace with your SSH public key (.pub file content)
-INSTANCE_NAME = "streamlit-server"
+SSH_PUBLIC_KEY = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDG7YJ3NVsLYtxeXrg/ezzUid7zoj3zHjEn6ryslGcp44RF24VYqjYrIbwLDNPfdr9fOrfH4U9ORDBM+ENHXvHdu0icbq/uEgsnL/khQRJkyC13pWZiaDYO45x376n4VJrVD2PfHUZyL5kzNuFWZAMxr9dFmFCpZxJjM71rv0g7OpdfnDrXpZEI47giO1ZKrTE0kN9rqRRsKGpwhaQvujJOb38/Nkhj1TBX8oufpSg2A2s5h1vVAv9RSQKFgmK4tRV2K0ZHZEsGNpDtVDHVo/4r+mVhXV6jsu+ruAaqSLWtLPboT8qdNP3YaY8b+sctvKhD1a5KoUfmy2fppTxMEaA1 ssh-key-2026-09-29"  # Replace with your SSH public key (.pub file content)
+INSTANCE_NAME = "arm-server"
 ARM_OCPUS = 2
 ARM_MEMORY_IN_GBS = 12
 BOOT_VOLUME_SIZE_IN_GBS = 100
@@ -37,20 +39,52 @@ def get_availability_domain():
     ads = identity.list_availability_domains(COMPARTMENT_ID).data
     return ads[0].name
 
+########################################################
+#
+# 抢 X86版本的 Canonical Ubuntu 22.04 
+#
+#######################################################
 
+# def get_ubuntu_arm_image():
+#     compute = oci.core.ComputeClient(config)
+#     images = compute.list_images(
+#         COMPARTMENT_ID,
+#         operating_system="Canonical Ubuntu",
+#         operating_system_version="22.04",
+#         shape="VM.Standard.A1.Flex",
+#         sort_by="TIMECREATED",
+#         sort_order="DESC",
+#     ).data
+#     if not images:
+#         raise Exception("Ubuntu 22.04 ARM image not found")
+#     return images[0].id
+
+########################################################
+#
+# 抢 ARM版本的 Canonical Ubuntu 24.04 Minimal aarch64 
+#
+#######################################################
 def get_ubuntu_arm_image():
     compute = oci.core.ComputeClient(config)
+
+    # 查询所有兼容 VM.Standard.A1.Flex 的 Canonical Ubuntu 镜像
     images = compute.list_images(
         COMPARTMENT_ID,
         operating_system="Canonical Ubuntu",
-        operating_system_version="22.04",
         shape="VM.Standard.A1.Flex",
         sort_by="TIMECREATED",
         sort_order="DESC",
     ).data
-    if not images:
-        raise Exception("Ubuntu 22.04 ARM image not found")
-    return images[0].id
+
+    # 优先 24.04 Minimal aarch64，找不到则尝试 22.04 Minimal aarch64
+    for version in ["24.04", "22.04"]:
+        for img in images:
+            name = (img.display_name or "").lower()
+            if version in name and "minimal" in name and "aarch64" in name:
+                print(f"Selected image: {img.display_name}")
+                return img.id
+
+    raise Exception("Ubuntu 24.04/22.04 Minimal aarch64 ARM image not found")
 
 
 def create_vcn_and_subnet():
