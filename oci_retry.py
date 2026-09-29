@@ -16,7 +16,7 @@ import datetime
 COMPARTMENT_ID = (
     "ocid1.tenancy.oc1..aaaaaaaame2wavybpt5wxnnopgusqj35fwnvccawpiposijrdxwveinl7ypq"  # Replace with your tenancy OCID
 )
-SSH_PUBLIC_KEY = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDG7YJ3NVsLYtxeXrg/ezzUid7zoj3zHjEn6ryslGcp44RF24VYqjYrIbwLDNPfdr9fOrfH4U9ORDBM+ENHXvHdu0icbq/uEgsnL/khQRJkyC13pWZiaDYO45x376n4VJrVD2PfHUZyL5kzNuFWZAMxr9dFmFCpZxJjM71rv0g7OpdfnDrXpZEI47giO1ZKrTE0kN9rqRRsKGpwhaQvujJOb38/Nkhj1TBX8oufpSg2A2s5h1vVAv9RSQKFgmK4tRV2K0ZHZEsGNpDtVDHVo/4r+mVhXV6jsu+ruAaqSLWtLPboT8qdNP3YaY8b+sctvKhD1a5KoUfmy2fppTxMEaA1 ssh-key-2026-09-29"  # Replace with your SSH public key (.pub file content)
+SSH_PUBLIC_KEY = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCzKCJRD5xGPxGb1a3rFqV+DOWyzd1g4AGwKylfojws8zDB0Q5fVVmH0HVlbwpMVN8w4CHlPbQR+o9Tsfcz+yG/dAuyhA7fX47TFoFhElFm37dC5nSt4f7H1inB+PL/8634+e03FdqT+5gn7JzoiZamJgWrIS6BAjdoQHAvzb6v4kndeh8/EO1KxpdpYs325S+DVKZsf7ZuH41S4BC63IKlu06XK3AEbuFXIlIKrgwnNLD+yYrBgnLU8XsdVGZ4CNy+LJqEAiiKgjq5O8ams5IkWIZ50kX4MrfuQ0VqGp8q9E5m8kTE88CjJ5U9h4lZdTLNEYcl5HrHwMjix9wvdC+Z administrator@DESKTOP-OPJRFPB"  # Replace with your SSH public key (.pub file content)
 INSTANCE_NAME = "arm-server"
 ARM_OCPUS = 2
 ARM_MEMORY_IN_GBS = 12
