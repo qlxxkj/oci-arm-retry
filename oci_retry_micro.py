@@ -43,9 +43,9 @@ RETRY_INTERVAL = 30
 #  固定配置（一般不用改）
 # ═══════════════════════════════════════════════════════
 COMPARTMENT_ID = (
-    "ocid1.tenancy.oc1..aaaaaaaaaqij5zlnm3v5qprvdll3j7nc6o3dk4ykzerugzxe37ckajkpjxpa"
+    "ocid1.tenancy.oc1..aaaaaaaame2wavybpt5wxnnopgusqj35fwnvccawpiposijrdxwveinl7ypq"  # Replace with your tenancy OCID
 )
-SSH_PUBLIC_KEY = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCxPqVeut2vbwt8VVAvHDnEN+q61jrIAGD9cQgW6kTeLCjjzm9UHt2Flf1KoohSu+0YFvSn8+t67r9T9wfdP14WBfZAg531CCyUNTbF5KmkaHgmxftWu3FgY00BTnGa4YEEXdAGn3X953HzFKJDpJVJyWFfWXJUOWdfivTKlO+62SBnlIdcanckwA6rzr9dXNSYlasoVnuk+ujANjhnxf4TpKcI4AQrAmRJQ83lXfI2yExBMX+Qx/JNSA2/2XFRfT7OMgddExibCRpSyammfatNLUIM5s+ab6aeO3aNvVWGok6/dpYaBPbvndERQs6p9FQr88C/VFeEwHCtvMT8c2WB ssh-key-2026-03-07"
+SSH_PUBLIC_KEY = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCzKCJRD5xGPxGb1a3rFqV+DOWyzd1g4AGwKylfojws8zDB0Q5fVVmH0HVlbwpMVN8w4CHlPbQR+o9Tsfcz+yG/dAuyhA7fX47TFoFhElFm37dC5nSt4f7H1inB+PL/8634+e03FdqT+5gn7JzoiZamJgWrIS6BAjdoQHAvzb6v4kndeh8/EO1KxpdpYs325S+DVKZsf7ZuH41S4BC63IKlu06XK3AEbuFXIlIKrgwnNLD+yYrBgnLU8XsdVGZ4CNy+LJqEAiiKgjq5O8ams5IkWIZ50kX4MrfuQ0VqGp8q9E5m8kTE88CjJ5U9h4lZdTLNEYcl5HrHwMjix9wvdC+Z administrator@DESKTOP-OPJRFPB"  # Replace with your SSH public key (.pub file content)
 # ═══════════════════════════════════════════════════════
 
 config = oci.config.from_file()
